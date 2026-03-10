@@ -1,0 +1,21 @@
+{
+    "family": "aws_test-task-def",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "256",
+    "memory": "512",
+    "executionRoleArn": "arn:aws:iam::014498645961:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "aws_test-container",
+        "image": "014498645961.dkr.ecr.us-east-1.amazonaws.com/aws_test:latest",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 3000,
+            "protocol": "tcp"
+          }
+        ]
+      }
+    ]
+  }
