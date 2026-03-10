@@ -8,7 +8,7 @@ on:
 env:
   AWS_REGION: us-east-1                    # Thay đổi region của bạn
   ECR_REPOSITORY: aws_test                   # Tên ECR repository
-  ECS_SERVICE: aws_test-service              # Tên ECS service
+  ECS_SERVICE: aws_test-task-def-service-6huht2se              # Tên ECS service
   ECS_CLUSTER: aws_test-cluster                  # Tên ECS cluster
   ECS_TASK_DEFINITION: aws_test-task-def     # Tên task definition
   CONTAINER_NAME: aws_test-container         # Tên container
