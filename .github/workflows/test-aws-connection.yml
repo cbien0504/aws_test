@@ -1,0 +1,44 @@
+name: Test AWS Connection
+
+on:
+  workflow_dispatch:  # Cho phép chạy manual
+  push:
+    branches: [ "main" ]  # Tự động chạy khi push lên main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test-connection:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: us-east-1  # Thay đổi region nếu cần
+
+    - name: Test AWS STS (Identity)
+      run: |
+        echo "Testing AWS STS connection..."
+        aws sts get-caller-identity
+
+    - name: Test ECR access
+      run: |
+        echo "Testing ECR access..."
+        aws ecr describe-repositories --max-items 5 || echo "No ECR repositories found or no permission"
+
+    - name: Test ECS access
+      run: |
+        echo "Testing ECS access..."
+        aws ecs list-clusters --max-items 5 || echo "No ECS clusters found or no permission"
+
+    - name: Connection successful
+      run: |
+        echo "✅ AWS connection test completed successfully!"
+        echo "✅ IAM Role ARN: $(aws sts get-caller-identity --query Arn --output text)"
+        echo "✅ Account ID: $(aws sts get-caller-identity --query Account --output text)"
